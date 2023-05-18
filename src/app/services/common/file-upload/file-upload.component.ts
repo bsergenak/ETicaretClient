@@ -48,7 +48,7 @@ export class FileUploadComponent {
                     headers: new HttpHeaders({ "responseType": "blob" })
                 }, fileData).subscribe(data => {
 
-                    const message: string = "Dosyalar basariyla yüklenmistir.";
+                    const message: string = "Dosyalar basariyla yuklenmistir.";
 
                     this.spinner.hide(SpinnerType.BallAtom);
                     if (this.options.isAdminPage) {
