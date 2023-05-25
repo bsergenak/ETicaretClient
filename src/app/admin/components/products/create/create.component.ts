@@ -21,13 +21,6 @@ export class CreateComponent extends BaseComponent implements OnInit {
     }
 
     @Output() createdProduct: EventEmitter<Create_Product> = new EventEmitter();
-    fileUploadOptions: Partial<FileUploadOptions> = {
-        action: "upload",
-        controller: "products",
-        explanation: "Resimleri surukleyin veya secin",
-        isAdminPage: true,
-        accept: ".png, .jpg, .jpeg, .json"
-    };
 
     create(name: HTMLInputElement, stock: HTMLInputElement, price: HTMLInputElement) {
         this.showSpinner(SpinnerType.BallAtom);
