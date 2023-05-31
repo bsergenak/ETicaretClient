@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Create_User } from '../../../contracts/users/create_user';
 import { User } from '../../../entities/user';
+import { UserService } from '../../../services/common/models/user.service';
+import { CustomToastrService, ToastrMessageType, ToastrPosition } from '../../../services/ui/custom-toastr.service';
 
 @Component({
     selector: 'app-register',
@@ -9,7 +12,7 @@ import { User } from '../../../entities/user';
 })
 export class RegisterComponent implements OnInit {
 
-    constructor(private formBuilder: FormBuilder) { }
+    constructor(private formBuilder: FormBuilder, private userService: UserService, private toastServices: CustomToastrService) { }
 
     frm: FormGroup;
     ngOnInit(): void {
@@ -34,9 +37,9 @@ export class RegisterComponent implements OnInit {
             ]],
         }, {
             validators: (group: AbstractControl): ValidationErrors | null => {
-                let pw = group.get("password").value;
-                let pwConfirm = group.get("passwordConfirm").value;
-                return pw === pwConfirm ? null : { notSame: true };
+                let sifre = group.get("password").value;
+                let sifreTekrar = group.get("passwordConfirm").value;
+                return sifre === sifreTekrar ? null : { notSame: true };
             }
         })
     }
@@ -46,9 +49,22 @@ export class RegisterComponent implements OnInit {
     }
 
     submitted: boolean = false;
-    onSubmit(data: User) {
+    async onSubmit(user: User) {
         this.submitted = true;
+
         if (this.frm.invalid)
             return;
+
+        const result: Create_User = await this.userService.create(user);
+        if (result.succeeded)
+            this.toastServices.message(result.message, "Kullanıcı kaydı başarılı", {
+                messageType: ToastrMessageType.Success,
+                position: ToastrPosition.TopRight
+            })
+        else
+            this.toastServices.message(result.message, "Hata", {
+                messageType: ToastrMessageType.Error,
+                position:ToastrPosition.TopRight
+            })
     }
 }
