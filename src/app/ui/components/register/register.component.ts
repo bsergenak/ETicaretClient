@@ -14,11 +14,11 @@ export class RegisterComponent implements OnInit {
     frm: FormGroup;
     ngOnInit(): void {
         this.frm = this.formBuilder.group({
-            adSoyad: ["", [Validators.required,
+            nameSurname: ["", [Validators.required,
             Validators.maxLength(50),
             Validators.minLength(3)
             ]],
-            kullaniciAdi: ["", [Validators.required,
+            username: ["", [Validators.required,
             Validators.maxLength(50),
             Validators.minLength(3)
             ]],
@@ -26,17 +26,17 @@ export class RegisterComponent implements OnInit {
             Validators.maxLength(250),
             Validators.email
             ]],
-            sifre: ["", [
+            password: ["", [
                 Validators.required
             ]],
-            sifreTekrar: ["", [
+            passwordConfirm: ["", [
                 Validators.required
             ]],
         }, {
             validators: (group: AbstractControl): ValidationErrors | null => {
-                let sifre = group.get("sifre").value;
-                let sifreTekrar = group.get("sifreTekrar").value;
-                return sifre === sifreTekrar ? null : { notSame: true };
+                let pw = group.get("password").value;
+                let pwConfirm = group.get("passwordConfirm").value;
+                return pw === pwConfirm ? null : { notSame: true };
             }
         })
     }
@@ -48,7 +48,6 @@ export class RegisterComponent implements OnInit {
     submitted: boolean = false;
     onSubmit(data: User) {
         this.submitted = true;
-
         if (this.frm.invalid)
             return;
     }
