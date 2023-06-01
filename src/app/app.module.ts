@@ -13,23 +13,30 @@ import { DeleteDirective } from './directives/admin/delete.directive';
 import { DeleteDialogComponent } from './dialogs/delete-dialog/delete-dialog.component';
 import { FileUploadComponent } from './services/common/file-upload/file-upload.component';
 import { FileUploadDialogComponent } from './dialogs/file-upload-dialog/file-upload-dialog.component';
+import { JwtModule } from '@auth0/angular-jwt';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    AdminModule, UiModule,
-    ToastrModule.forRoot(),
-    NgxSpinnerModule,
-    HttpClientModule
-  ],
-  providers: [
-    { provide: "baseUrl", useValue: "https://localhost:7083/api", multi: true }
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent
+    ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        AdminModule, UiModule,
+        ToastrModule.forRoot(),
+        NgxSpinnerModule,
+        HttpClientModule,
+        JwtModule.forRoot({
+            config: {
+                tokenGetter: () => localStorage.getItem("accessToken"),
+                allowedDomains: ["localhost:7083"]
+            }
+        })
+    ],
+    providers: [
+        { provide: "baseUrl", useValue: "https://localhost:7083/api", multi: true }
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
