@@ -1,8 +1,13 @@
-import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Component, OnInit } from '@angular/core';
 import { BaseComponent, SpinnerType } from '../../../base/base.component';
 import { AuthService } from '../../../services/common/auth.service';
 import { UserService } from '../../../services/common/models/user.service';
+import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HttpClientService } from '../../../services/common/http-client.service';
+import { TokenResponse } from '../../../contracts/token/tokenResponse';
+import { async } from 'rxjs';
 
 @Component({
     selector: 'app-login',
@@ -11,8 +16,17 @@ import { UserService } from '../../../services/common/models/user.service';
 })
 export class LoginComponent extends BaseComponent implements OnInit {
 
-    constructor(private userService: UserService, spinner: NgxSpinnerService, private authService: AuthService) {
+    constructor(private userService: UserService, spinner: NgxSpinnerService, private authService: AuthService,
+        private activatedRoute: ActivatedRoute, private router: Router, private socialAuthService: SocialAuthService) {
         super(spinner)
+        socialAuthService.authState.subscribe(async (user: SocialUser) => {
+            console.log(user)
+            this.showSpinner(SpinnerType.BallAtom);
+            await userService.googleLogin(user, () => {
+                this.authService.identityCheck();
+                this.hideSpinner(SpinnerType.BallAtom);
+            })
+        });
     }
 
     ngOnInit(): void {
@@ -22,6 +36,12 @@ export class LoginComponent extends BaseComponent implements OnInit {
         this.showSpinner(SpinnerType.BallAtom);
         await this.userService.login(usernameOrEmail, password, () => {
             this.authService.identityCheck();
+
+            this.activatedRoute.queryParams.subscribe(params => {
+                const returnUrl: string = params["returnUrl"];
+                if (returnUrl)
+                    this.router.navigate([returnUrl]);
+            });
             this.hideSpinner(SpinnerType.BallAtom);
         });
     }

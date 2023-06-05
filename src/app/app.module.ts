@@ -14,10 +14,13 @@ import { DeleteDialogComponent } from './dialogs/delete-dialog/delete-dialog.com
 import { FileUploadComponent } from './services/common/file-upload/file-upload.component';
 import { FileUploadDialogComponent } from './dialogs/file-upload-dialog/file-upload-dialog.component';
 import { JwtModule } from '@auth0/angular-jwt';
+import { LoginComponent } from './ui/components/login/login.component';
+import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        LoginComponent
     ],
     imports: [
         BrowserModule,
@@ -32,10 +35,24 @@ import { JwtModule } from '@auth0/angular-jwt';
                 tokenGetter: () => localStorage.getItem("accessToken"),
                 allowedDomains: ["localhost:7083"]
             }
-        })
+        }),
+        SocialLoginModule
     ],
     providers: [
-        { provide: "baseUrl", useValue: "https://localhost:7083/api", multi: true }
+        { provide: "baseUrl", useValue: "https://localhost:7083/api", multi: true },
+        {
+            provide: "SocialAuthServiceConfig",
+            useValue: {
+                autoLogin: false,
+                providers: [
+                    {
+                        id: GoogleLoginProvider.PROVIDER_ID,
+                        provider: new GoogleLoginProvider("416772859083-bhud8877dt72ll9e8o1ai38cog79bepl.apps.googleusercontent.com")
+                    }
+                ],
+                onError: err => console.log(err)
+            } as SocialAuthServiceConfig
+        }
     ],
     bootstrap: [AppComponent]
 })
