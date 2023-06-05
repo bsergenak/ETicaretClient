@@ -3,11 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { BaseComponent, SpinnerType } from '../../../base/base.component';
 import { AuthService } from '../../../services/common/auth.service';
 import { UserService } from '../../../services/common/models/user.service';
-import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import { FacebookLoginProvider, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClientService } from '../../../services/common/http-client.service';
 import { TokenResponse } from '../../../contracts/token/tokenResponse';
-import { async } from 'rxjs';
 
 @Component({
     selector: 'app-login',
@@ -22,10 +21,20 @@ export class LoginComponent extends BaseComponent implements OnInit {
         socialAuthService.authState.subscribe(async (user: SocialUser) => {
             console.log(user)
             this.showSpinner(SpinnerType.BallAtom);
-            await userService.googleLogin(user, () => {
-                this.authService.identityCheck();
-                this.hideSpinner(SpinnerType.BallAtom);
-            })
+            switch (user.provider) {
+                case "GOOGLE":
+                    await userService.googleLogin(user, () => {
+                        this.authService.identityCheck();
+                        this.hideSpinner(SpinnerType.BallAtom);
+                    })
+                    break;
+                case "FACEBOOK":
+                    await userService.facebookLogin(user, () => {
+                        this.authService.identityCheck();
+                        this.hideSpinner(SpinnerType.BallAtom);
+                    })
+                    break;
+            }
         });
     }
 
@@ -44,5 +53,9 @@ export class LoginComponent extends BaseComponent implements OnInit {
             });
             this.hideSpinner(SpinnerType.BallAtom);
         });
+    }
+
+    facebookLogin() {
+        this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);
     }
 }

@@ -1,5 +1,6 @@
 ﻿import { SocialUser } from '@abacritt/angularx-social-login';
 import { Injectable } from '@angular/core';
+import { Toast } from 'ngx-toastr';
 import { firstValueFrom, Observable } from 'rxjs';
 import { Token } from '../../../contracts/token/token';
 import { TokenResponse } from '../../../contracts/token/tokenResponse';
@@ -22,11 +23,11 @@ export class UserService {
         return await firstValueFrom(observable) as Create_User;
     }
 
-    async login(usernameOrEmail: string, password: string, callBackFunction?: () => void): Promise<any> {
+    async login(userNameOrEmail: string, password: string, callBackFunction?: () => void): Promise<any> {
         const observable: Observable<any | TokenResponse> = this.httpClientService.post<any | TokenResponse>({
             controller: "users",
             action: "login"
-        }, { usernameOrEmail, password })
+        }, { userNameOrEmail, password })
 
         const tokenResponse: TokenResponse = await firstValueFrom(observable) as TokenResponse;
 
@@ -38,6 +39,7 @@ export class UserService {
                 position: ToastrPosition.TopRight
             })
         }
+
         callBackFunction();
     }
 
@@ -57,6 +59,27 @@ export class UserService {
                 position: ToastrPosition.TopRight
             });
         }
+
+        callBackFunction();
+    }
+
+    async facebookLogin(user: SocialUser, callBackFunction?: () => void): Promise<any> {
+        const observable: Observable<SocialUser | TokenResponse> = this.httpClientService.post<SocialUser | TokenResponse>({
+            controller: "users",
+            action: "facebook-login"
+        }, user);
+
+        const tokenResponse: TokenResponse = await firstValueFrom(observable) as TokenResponse;
+
+        if (tokenResponse) {
+            localStorage.setItem("accessToken", tokenResponse.token.accessToken);
+
+            this.toastrService.message("Facebook üzerinden giriş başarıyla sağlanmıştır.", "Giriş Başarılı", {
+                messageType: ToastrMessageType.Success,
+                position: ToastrPosition.TopRight
+            })
+        }
+
         callBackFunction();
     }
 }
