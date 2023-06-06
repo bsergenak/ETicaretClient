@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { BaseComponent } from './base/base.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DeleteDirective } from './directives/admin/delete.directive';
 import { DeleteDialogComponent } from './dialogs/delete-dialog/delete-dialog.component';
 import { FileUploadComponent } from './services/common/file-upload/file-upload.component';
@@ -17,6 +17,7 @@ import { FileUploadDialogComponent } from './dialogs/file-upload-dialog/file-upl
 import { JwtModule } from '@auth0/angular-jwt'
 import { LoginComponent } from './ui/components/login/login.component';
 import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
+import { HttpErrorInterceptorService } from './services/common/http-error-interceptor.service';
 
 @NgModule({
     declarations: [
@@ -57,7 +58,8 @@ import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, So
                 ],
                 onError: err => console.log(err)
             } as SocialAuthServiceConfig
-        }
+        },
+        { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptorService, multi: true }
     ],
     bootstrap: [AppComponent],
     schemas: [
