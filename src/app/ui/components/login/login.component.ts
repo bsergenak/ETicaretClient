@@ -8,6 +8,7 @@ import { TokenResponse } from '../../../contracts/token/tokenResponse';
 import { AuthService } from '../../../services/common/auth.service';
 import { HttpClientService } from '../../../services/common/http-client.service';
 import { UserAuthService } from '../../../services/common/models/user-auth.service';
+import { UserService } from '../../../services/common/models/user.service';
 
 @Component({
     selector: 'app-login',

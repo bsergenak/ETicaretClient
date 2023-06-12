@@ -1,6 +1,6 @@
 ﻿export class List_Product {
     id: string;
-    nmae: string;
+    name: string;
     stock: number;
     price: number;
     createdDate: Date;

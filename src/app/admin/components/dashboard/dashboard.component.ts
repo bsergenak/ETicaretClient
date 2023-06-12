@@ -5,7 +5,7 @@ import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
 import { AlertifyService, MessageType, Position } from 'src/app/services/admin/alertify.service';
 import { HubUrls } from '../../../constants/hub-urls';
 import { ReceiveFunctions } from '../../../constants/receive-functions';
-import { SignalrService } from '../../../services/common/signalr.service';
+import { SignalRService } from '../../../services/common/signalr.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -14,7 +14,7 @@ import { SignalrService } from '../../../services/common/signalr.service';
 })
 export class DashboardComponent extends BaseComponent implements OnInit {
 
-    constructor(private alertify: AlertifyService, spinner: NgxSpinnerService, private signalRService: SignalrService) {
+    constructor(private alertify: AlertifyService, spinner: NgxSpinnerService, private signalRService: SignalRService) {
         super(spinner)
         signalRService.start(HubUrls.ProductHub)
     }

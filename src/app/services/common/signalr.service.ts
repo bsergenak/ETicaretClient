@@ -4,8 +4,7 @@ import { HubConnection, HubConnectionBuilder, HubConnectionState } from '@micros
 @Injectable({
     providedIn: 'root'
 })
-export class SignalrService {
-
+export class SignalRService {
 
     private _connection: HubConnection;
     get connection(): HubConnection {

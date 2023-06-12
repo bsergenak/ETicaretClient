@@ -1,4 +1,4 @@
-import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+﻿import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FileSystemDirectoryEntry, FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
@@ -48,7 +48,7 @@ export class FileUploadComponent {
                     headers: new HttpHeaders({ "responseType": "blob" })
                 }, fileData).subscribe(data => {
 
-                    const message: string = "Dosyalar basariyla yuklenmistir.";
+                    const message: string = "Dosyalar başarıyla yüklenmiştir.";
 
                     this.spinner.hide(SpinnerType.BallAtom);
                     if (this.options.isAdminPage) {
@@ -59,7 +59,7 @@ export class FileUploadComponent {
                                 position: Position.TopRight
                             })
                     } else {
-                        this.customToastrService.message(message, "Basarili.", {
+                        this.customToastrService.message(message, "Başarılı.", {
                             messageType: ToastrMessageType.Success,
                             position: ToastrPosition.TopRight
                         })
@@ -68,7 +68,7 @@ export class FileUploadComponent {
 
                 }, (errorResponse: HttpErrorResponse) => {
 
-                    const message: string = "Dosyalar yuklenirken beklenmeyen bir hatayla karsilasilmistir.";
+                    const message: string = "Dosyalar yüklenirken beklenmeyen bir hatayla karşılaşılmıştır.";
 
                     this.spinner.hide(SpinnerType.BallAtom)
                     if (this.options.isAdminPage) {
@@ -79,7 +79,7 @@ export class FileUploadComponent {
                                 position: Position.TopRight
                             })
                     } else {
-                        this.customToastrService.message(message, "Basarisiz.", {
+                        this.customToastrService.message(message, "Başarsız.", {
                             messageType: ToastrMessageType.Error,
                             position: ToastrPosition.TopRight
                         })

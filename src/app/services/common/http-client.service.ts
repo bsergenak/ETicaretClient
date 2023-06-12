@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
     providedIn: 'root'
 })
 export class HttpClientService {
-
     constructor(private httpClient: HttpClient, @Inject("baseUrl") private baseUrl: string) { }
 
     private url(requestParameter: Partial<RequestParameters>): string {
@@ -20,7 +19,7 @@ export class HttpClientService {
         else
             url = `${this.url(requestParameter)}${id ? `/${id}` : ""}${requestParameter.queryString ? `?${requestParameter.queryString}` : ""}`;
 
-        return this.httpClient.get<T>(url, { headers: requestParameter.headers, responseType: requestParameter.responseType as 'json' });
+        return this.httpClient.get<T>(url, { headers: requestParameter.headers });
     }
 
     post<T>(requestParameter: Partial<RequestParameters>, body: Partial<T>): Observable<T> {
@@ -30,7 +29,7 @@ export class HttpClientService {
         else
             url = `${this.url(requestParameter)}${requestParameter.queryString ? `?${requestParameter.queryString}` : ""}`
 
-        return this.httpClient.post<T>(url, body, { headers: requestParameter.headers, responseType: requestParameter.responseType as 'json' });
+        return this.httpClient.post<T>(url, body, { headers: requestParameter.headers });
     }
 
     put<T>(requestParameter: Partial<RequestParameters>, body: Partial<T>): Observable<T> {
@@ -40,7 +39,7 @@ export class HttpClientService {
         else
             url = `${this.url(requestParameter)}${requestParameter.queryString ? `?${requestParameter.queryString}` : ""}`;
 
-        return this.httpClient.put<T>(url, body, { headers: requestParameter.headers, responseType: requestParameter.responseType as 'json' });
+        return this.httpClient.put<T>(url, body, { headers: requestParameter.headers });
     }
 
     delete<T>(requestParameter: Partial<RequestParameters>, id: string): Observable<T> {
@@ -50,7 +49,7 @@ export class HttpClientService {
         else
             url = `${this.url(requestParameter)}/${id}${requestParameter.queryString ? `?${requestParameter.queryString}` : ""}`;
 
-        return this.httpClient.delete<T>(url, { headers: requestParameter.headers, responseType: requestParameter.responseType as 'json' });
+        return this.httpClient.delete<T>(url, { headers: requestParameter.headers });
     }
 }
 
@@ -63,6 +62,4 @@ export class RequestParameters {
     headers?: HttpHeaders;
     baseUrl?: string;
     fullEndPoint?: string;
-
-    responseType?: string = 'json';
 }

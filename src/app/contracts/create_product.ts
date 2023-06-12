@@ -1,5 +1,5 @@
 export class Create_Product {
-    name:string;
+    name: string;
     stock: number;
     price: number;
 }

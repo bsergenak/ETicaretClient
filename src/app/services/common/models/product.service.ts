@@ -42,11 +42,11 @@ export class ProductService {
         return await promiseData;
     }
 
-
     async delete(id: string) {
         const deleteObservable: Observable<any> = this.httpClientService.delete<any>({
             controller: "products"
         }, id);
+
         await firstValueFrom(deleteObservable);
     }
 
@@ -58,7 +58,6 @@ export class ProductService {
 
         const images: List_Product_Image[] = await firstValueFrom(getObservable);
         successCallBack();
-
         return images;
     }
 
