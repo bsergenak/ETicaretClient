@@ -8,13 +8,13 @@ import { DashboardModule } from './dashboard/dashboard.module';
 
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    ProductsModule,
-    OrderModule,
-    CustomerModule,
-    DashboardModule
-  ]
+    declarations: [],
+    imports: [
+        CommonModule,
+        ProductsModule,
+        OrderModule,
+        CustomerModule,
+        DashboardModule
+    ]
 })
 export class ComponentsModule { }

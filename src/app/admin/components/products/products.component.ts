@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
 import { HttpClientService } from 'src/app/services/common/http-client.service';
@@ -25,4 +26,5 @@ export class ProductsComponent extends BaseComponent implements OnInit {
     createdProduct(createdProduct: Create_Product) {
         this.listComponents.getProducts();
     }
+
 }
