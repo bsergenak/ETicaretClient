@@ -11,7 +11,7 @@ export class DynamicLoadComponentService {
     ///ComponentFactoryResolver : Belirli  bir component için componentFactory'i resolve eden sınıftır.İçerisindeki 
     //resolveComponentFactory araacılığıyla ilgili componente daair bir component factory oluşturur ve döner.
 
-    constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
+    constructor() { }
 
     async loadComponent(component: ComponentType, viewContainerRef: ViewContainerRef) {
         let _component: any = null;
@@ -23,7 +23,7 @@ export class DynamicLoadComponentService {
         }
 
         viewContainerRef.clear();
-        return viewContainerRef.createComponent(this.componentFactoryResolver.resolveComponentFactory(_component))
+        return viewContainerRef.createComponent(_component)
     }
 }
 
