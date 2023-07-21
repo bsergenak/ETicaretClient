@@ -6,10 +6,9 @@ import { BaseComponent } from '../../base/base.component';
 })
 export class DynamicLoadComponentService {
 
-    //ViewContainerRef : Dinamik olarak yüklenecek componenti içerisinde barındıran containerdır.(Her dinamik yükleme sürecinde önceki view'ları clear etmemiz gerekmekte)
-    //ComponentFactory : Componentlerin instancelarınnı oluşturmak için kullnııln fabrikadır.
-    ///ComponentFactoryResolver : Belirli  bir component için componentFactory'i resolve eden sınıftır.İçerisindeki 
-    //resolveComponentFactory araacılığıyla ilgili componente daair bir component factory oluşturur ve döner.
+    //ViewContainerRef          : Dinamik olarak yüklenecek componenti içerisinde barındıran container'dır. (Her dinamik yükleme sürecinde önceki view'leri clear etmemiz gerekmektedir.)
+    //ComponentFactory : COmponent'lerin instance'larını oluşturmak için kullanılan nesnedir.
+    //ComponentFactoryResolver : Belirli bir component için ComponentFactory'i resolve eden sınıftır. İçerisindeki resolveComponentFactory fonksiyonu aracılığıyla ilgili componente dair bir ComponentFactory nesnesi oluşturup, döner.
 
     constructor() { }
 
@@ -18,7 +17,7 @@ export class DynamicLoadComponentService {
 
         switch (component) {
             case ComponentType.BasketsComponent:
-                _component = await (await import("../../ui/components/baskets/baskets.component")).BasketsComponent;
+                _component = (await import("../../ui/components/baskets/baskets.component")).BasketsComponent;
                 break;
         }
 

@@ -8,14 +8,13 @@ import { HttpClientService } from '../http-client.service';
 })
 export class OrderService {
 
-    constructor(private httpClientService: HttpClientService) { }
+    constructor(private httpCLientService: HttpClientService) { }
 
     async create(order: Create_Order): Promise<void> {
-        const observable: Observable<any> = this.httpClientService.post({
+        const observable: Observable<any> = this.httpCLientService.post({
             controller: "orders"
         }, order);
 
         await firstValueFrom(observable);
     }
-
 }
