@@ -40,24 +40,31 @@ import { DynamicLoadComponentDirective } from './directives/common/dynamic-load-
                 tokenGetter: () => localStorage.getItem("accessToken"),
                 allowedDomains: ["localhost:7083"]
             }
-        }), SocialLoginModule], providers: [
-            { provide: "baseUrl", useValue: "https://localhost:7083/api", multi: true },
-            { provide: "baseSignalRUrl", useValue: "https://localhost:7083/", multi: true },
-            {
-                provide: "SocialAuthServiceConfig", useValue:
+        }),
+        SocialLoginModule
+    ],
+    providers: [
+        { provide: "baseUrl", useValue: "https://localhost:7083/api", multi: true },
+        { provide: "baseSignalRUrl", useValue: "https://localhost:7083/", multi: true },
+        {
+            provide: "SocialAuthServiceConfig",
+            useValue: {
+                autoLogin: false,
+                providers: [
                     {
-                        autoLogin: false, providers: [{
-                            id: GoogleLoginProvider.PROVIDER_ID,
-                            provider: new GoogleLoginProvider("416772859083-bhud8877dt72ll9e8o1ai38cog79bepl.apps.googleusercontent.com")
-                        }, {
-                            id: FacebookLoginProvider.PROVIDER_ID,
-                            provider: new FacebookLoginProvider("3440249389576505")
-                        }],
-                        onError: err => console.log(err)
-                    } as SocialAuthServiceConfig
-            },
-            { provide: HTTP_INTERCEPTORS, useClass: HttpErrorHandlerInterceptorService, multi: true }
-        ],
+                        id: GoogleLoginProvider.PROVIDER_ID,
+                        provider: new GoogleLoginProvider("416772859083-bhud8877dt72ll9e8o1ai38cog79bepl.apps.googleusercontent.com")
+                    },
+                    {
+                        id: FacebookLoginProvider.PROVIDER_ID,
+                        provider: new FacebookLoginProvider("3440249389576505")
+                    }
+                ],
+                onError: err => console.log(err)
+            } as SocialAuthServiceConfig
+        },
+        { provide: HTTP_INTERCEPTORS, useClass: HttpErrorHandlerInterceptorService, multi: true }
+    ],
     bootstrap: [AppComponent],
     schemas: [
         CUSTOM_ELEMENTS_SCHEMA]

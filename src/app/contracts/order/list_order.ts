@@ -1,6 +1,6 @@
 export class List_Order {
 	orderCode: string;
-	userNmae: string;
+	userName: string;
 	totalPrice: number;
 	createdDate: Date;
 }
