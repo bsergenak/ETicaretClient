@@ -10,10 +10,10 @@ import { HttpClientService } from '../http-client.service';
 })
 export class OrderService {
 
-    constructor(private httpCLientService: HttpClientService) { }
+    constructor(private httpClientService: HttpClientService) { }
 
     async create(order: Create_Order): Promise<void> {
-        const observable: Observable<any> = this.httpCLientService.post({
+        const observable: Observable<any> = this.httpClientService.post({
             controller: "orders"
         }, order);
 
@@ -21,7 +21,7 @@ export class OrderService {
     }
 
     async getAllOrders(page: number = 0, size: number = 5, successCallBack?: () => void, errorCallBack?: (errorMessage: string) => void): Promise<{ totalOrderCount: number; orders: List_Order[] }> {
-        const observable: Observable<{ totalOrderCount: number; orders: List_Order[] }> = this.httpCLientService.get({
+        const observable: Observable<{ totalOrderCount: number; orders: List_Order[] }> = this.httpClientService.get({
             controller: "orders",
             queryString: `page=${page}&size=${size}`
         });
@@ -34,7 +34,7 @@ export class OrderService {
     }
 
     async getOrderById(id: string, successCallBack?: () => void, errorCallBack?: (errorMessage: string) => void) {
-        const observable: Observable<SingleOrder> = this.httpCLientService.get<SingleOrder>({
+        const observable: Observable<SingleOrder> = this.httpClientService.get<SingleOrder>({
             controller: "orders"
         }, id);
 
@@ -46,7 +46,7 @@ export class OrderService {
     }
 
     async completeOrder(id: string) {
-        const observable: Observable<any> = this.httpCLientService.get({
+        const observable: Observable<any> = this.httpClientService.get({
             controller: "orders",
             action: "complete-order"
         }, id);
