@@ -24,18 +24,22 @@ export class ListComponent extends BaseComponent implements OnInit {
     }
 
 
-    displayedColumns: string[] = ['orderCode', 'userName', 'totalPrice', 'createdDate', , 'completed', 'viewdetail', 'delete'];
+    displayedColumns: string[] = ['orderCode', 'userName', 'totalPrice', 'createdDate', 'completed', 'viewdetail', 'delete'];
     dataSource: MatTableDataSource<List_Order> = null;
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
     async getOrders() {
         this.showSpinner(SpinnerType.BallAtom);
 
-        const allOrders: { totalOrderCount: number; orders: List_Order[] } = await this.orderService.getAllOrders(this.paginator ? this.paginator.pageIndex : 0, this.paginator ? this.paginator.pageSize : 5, () => this.hideSpinner(SpinnerType.BallAtom), errorMessage => this.alertifyService.message(errorMessage, {
-            dismissOthers: true,
-            messageType: MessageType.Error,
-            position: Position.TopRight
-        }))
+        const allOrders: { totalOrderCount: number; orders: List_Order[] } =
+            await this.orderService.getAllOrders(this.paginator ? this.paginator.pageIndex : 0, this.paginator ? this.paginator.pageSize : 5,
+                () => this.hideSpinner(SpinnerType.BallAtom), (errorMessage: any) => {
+                    this.alertifyService.message(errorMessage.message, {
+                        dismissOthers: true,
+                        messageType: MessageType.Error,
+                        position: Position.TopRight
+                    });
+                })
         this.dataSource = new MatTableDataSource<List_Order>(allOrders.orders);
         this.paginator.length = allOrders.totalOrderCount;
     }
